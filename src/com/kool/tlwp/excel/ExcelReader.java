@@ -85,7 +85,10 @@ public class ExcelReader {
 	
 		Workbook book = getBook(excelPath);
 		List<List<List<String>>> listSheet = new ArrayList<List<List<String>>>();
-		for (int i = 0; i < book.getNumberOfSheets(); i++) {
+		if (sheetEnd>book.getNumberOfSheets()) {
+			sheetEnd = book.getNumberOfSheets();
+		}
+		for (int i = sheetBegin; i < sheetEnd; i++) {
 			List<List<String>> sheet = getSheetValue(book, i, rowBegin, rowEnd, cellBegin, cellEnd);
 			listSheet.add(sheet);
 		}
@@ -96,6 +99,7 @@ public class ExcelReader {
 	/**
 	 * 
 	 * @DESCRIBE 读取excel数据库设计文档并转成建表语句
+	 * 修改：第一个sheet用于保存表清单，表数据从第二个sheet开始取
 	 * @DATE 2017年8月25日 下午9:01:42
 	 *
 	 * @param excelPath excel数据库设计文档路径
@@ -103,7 +107,7 @@ public class ExcelReader {
 	 * @throws Exception
 	 */
 	public static void excelToSql(String excelPath, String toDir) throws Exception {
-		List<List<List<String>>> listSheet = getExcelValue(excelPath, 0, 65535, 0, 65535, 0, 65535);
+		List<List<List<String>>> listSheet = getExcelValue(excelPath, 1, 65535, 0, 65535, 0, 65535);
 		print(listSheet);
 		for (List<List<String>> sheet : listSheet) {
 			TableBeanToSql(sheetValueToTableBean(sheet), toDir);
