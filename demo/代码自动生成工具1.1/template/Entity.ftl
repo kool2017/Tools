@@ -2,6 +2,7 @@ package ${pkg}.entity;
 
 import java.util.HashMap;
 import java.util.Map;
+import com.kool.tlwp.entity.BaseEntity;
 
 public class ${upTumTabNam}Entity extends BaseEntity {
 	<#list columns as col>
